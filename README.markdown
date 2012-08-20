@@ -4,9 +4,9 @@ _Tested cassandra 1.1.3 on OSX only._ with the patch (https://issues.apache.org/
 
 The script make nodes as follows:
 
-  node 1: address=127.0.0.1, jmx port=7199
-  node 2: address=127.0.0.2, jmx port=7200
-  node 3: address=127.0.0.3, jmx port=7201
+    node 1: address=127.0.0.1, jmx port=7199
+    node 2: address=127.0.0.2, jmx port=7200
+    node 3: address=127.0.0.3, jmx port=7201
 
 _Create interface aliases you need_
 
