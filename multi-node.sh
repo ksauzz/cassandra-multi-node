@@ -8,8 +8,9 @@ usage() {
 usage
 -----
   $0 create node_count cassandra_home
-  $0 start
-  $0 stop
+  $0 start_all
+  $0 stop node
+  $0 stop_all
   $0 clean
 EOS
 }
@@ -71,11 +72,25 @@ run(){
   done
 }
 
-stop(){
+stop_all(){
   for node in `ls -1 $ROOT/nodes`;do
-    echo "killing node$node"
-    kill $(cat $ROOT/nodes/$node/cassandra.pid)
+    stop $node
   done
+}
+
+stop(){
+  node=$1
+  echo "killing node$node"
+  kill $(cat $ROOT/nodes/$node/cassandra.pid)
+}
+
+required_args(){
+  actual=$1
+  required=$2
+  if [[ $actual -lt $required ]]; then
+    usage
+    exit 1
+  fi
 }
 
 if [[ $# -lt 1 ]]; then
@@ -85,20 +100,21 @@ fi
 
 case $1 in
   create)
-    if [[ $# -lt 3 ]]; then
-      usage
-      exit 1
-    fi
+    required_args $# 3
     create_nodes $2 $3
     ;;
   clean)
     clean
     ;;
-  start|run)
+  start_all|run)
     run
     ;;
+  stop_all)
+    stop_all
+    ;;
   stop)
-    stop
+    required_args $# 2
+    stop $2
     ;;
   *)
     usage
