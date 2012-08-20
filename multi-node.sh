@@ -25,14 +25,16 @@ create_nodes(){
   while [ $n -le $node_cnt ]; do seeds="$seeds,127.0.0.$n";n=$(($n+1)); done
   seeds=$(echo $seeds|sed s/,//)
 
-  i=$node_cnt
-  while [ $i -gt 0 ]; do
+  i=1
+  while [ $i -le $node_cnt ]; do
+
     app_root=$ROOT/nodes/$i
     mkdir -pv $app_root
     cp -r $cassandra_home/* $app_root/
     mkdir -pv $app_root/data
     mkdir -pv $app_root/commitlog
     mkdir -pv $app_root/saved_caches
+    mkdir -pv $app_root/logs
 
     cat $cassandra_home/conf/cassandra.yaml | \
       sed "s|/var/lib/cassandra|${app_root}|" |\
@@ -40,7 +42,11 @@ create_nodes(){
       sed "s|- seeds: \"127.0.0.1\"|- seeds: \"$seeds\"|" \
       > $app_root/conf/cassandra.yaml
 
-    i=$(($i-1))
+    cat $cassandra_home/conf/log4j-server.properties |\
+      sed "s|/var/log/cassandra|$app_root/logs|" \
+      > $app_root/conf/log4j-server.properties
+
+    i=$(($i+1))
   done
 }
 
