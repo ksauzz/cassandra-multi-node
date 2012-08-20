@@ -43,6 +43,12 @@ create_nodes(){
   done
 }
 
+run(){
+  for node in `ls -1 $ROOT/nodes`;do
+    $ROOT/nodes/$node/bin/cassandra
+  done
+}
+
 if [[ $# -lt 1 ]]; then
   usage
   exit 1
@@ -58,6 +64,9 @@ case $1 in
     ;;
   clean)
     clean
+    ;;
+  run)
+    run
     ;;
   *)
     usage
