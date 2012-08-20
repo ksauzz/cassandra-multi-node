@@ -8,12 +8,16 @@ usage
 -----
   $0 create node_count cassandra_home
   $0 start
+  $0 stop
   $0 clean
 EOS
 }
 
 clean(){
-  rm -rf $ROOT/nodes
+  for node in `ls -1 $ROOT/nodes`;do
+    echo "rm $node"
+    rm -rfv $node
+  done
 }
 
 create_nodes(){
@@ -46,13 +50,23 @@ create_nodes(){
       sed "s|/var/log/cassandra|$app_root/logs|" \
       > $app_root/conf/log4j-server.properties
 
+    cat $cassandra_home/conf/cassandra-env.sh | \
+      sed "s/JMX_PORT=\"7199\"/JMX_PORT=\"$((7199+($i-1)))\"/" \
+      > $app_root/conf/cassandra-env.sh
+
     i=$(($i+1))
   done
 }
 
 run(){
   for node in `ls -1 $ROOT/nodes`;do
-    $ROOT/nodes/$node/bin/cassandra
+    $ROOT/nodes/$node/bin/cassandra -p $ROOT/nodes/$node/cassandra.pid
+  done
+}
+
+stop(){
+  for node in `ls -1 $ROOT/nodes`;do
+    kill $(cat $ROOT/nodes/$node/cassandra.pid)
   done
 }
 
@@ -74,6 +88,9 @@ case $1 in
     ;;
   start|run)
     run
+    ;;
+  stop)
+    stop
     ;;
   *)
     usage
