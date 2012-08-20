@@ -18,9 +18,16 @@ _Create interface aliases you need_
     usage
     -----
       ./multi-node.sh create node_count cassandra_home
-      ./multi-node.sh start
-      ./multi-node.sh stop
+      ./multi-node.sh start node_id
+      ./multi-node.sh start_all
+      ./multi-node.sh stop node_id
+      ./multi-node.sh stop_all
       ./multi-node.sh clean
+
+    example)
+      ./multi-node.sh create 3 /usr/local/cassandra
+      ./multi-node.sh stop 2
+      ./multi-node.sh start 2
 
 ## Instruction (make 3 nodes)
 
@@ -28,26 +35,26 @@ _Create interface aliases you need_
 
 2. clone this.
 
-    $ git clone https://github.com/ksauzz/cassandra-multi-node.git
-    $ cd cassandra-multi-node
+      $ git clone https://github.com/ksauzz/cassandra-multi-node.git
+      $ cd cassandra-multi-node
 
 3. create nodes.
 
-    $ ./multi-node.sh create 3 cassandra\_home
+      $ ./multi-node.sh create 3 cassandra\_home
 
 4. start cassandra multi-node.
 
-    $ ./multi-node.sh run
+      $ ./multi-node.sh run
 
 5. show ring status.
 
-    $ nodes/1/bin/nodetool ring
-    Note: Ownership information does not include topology, please specify a keyspace. 
-    Address         DC          Rack        Status State   Load            Owns                Token
-                                                                                               60124436846790647144840725483529043142
-    127.0.0.3       datacenter1 rack1       Up     Normal  6.74 KB         87.82%              39402250938272095434520910242661579171
-    127.0.0.2       datacenter1 rack1       Up     Normal  13.52 KB        5.27%               48361166307902626090781384884410123881
-    127.0.0.1       datacenter1 rack1       Up     Normal  6.74 KB         6.91%               60124436846790647144840725483529043142
+      $ nodes/1/bin/nodetool ring
+      Note: Ownership information does not include topology, please specify a keyspace. 
+      Address         DC          Rack        Status State   Load            Owns                Token
+                                                                                                 60124436846790647144840725483529043142
+      127.0.0.3       datacenter1 rack1       Up     Normal  6.74 KB         87.82%              39402250938272095434520910242661579171
+      127.0.0.2       datacenter1 rack1       Up     Normal  13.52 KB        5.27%               48361166307902626090781384884410123881
+      127.0.0.1       datacenter1 rack1       Up     Normal  6.74 KB         6.91%               60124436846790647144840725483529043142
 
 ## TODO
 
