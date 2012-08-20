@@ -7,6 +7,7 @@ usage() {
 usage
 -----
   $0 create node_count cassandra_home
+  $0 start
   $0 clean
 EOS
 }
@@ -65,7 +66,7 @@ case $1 in
   clean)
     clean
     ;;
-  run)
+  start|run)
     run
     ;;
   *)
