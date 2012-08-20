@@ -8,10 +8,16 @@ usage() {
 usage
 -----
   $0 create node_count cassandra_home
+  $0 start node_id
   $0 start_all
-  $0 stop node
+  $0 stop node_id
   $0 stop_all
   $0 clean
+
+example)
+  $0 create 3 /usr/local/cassandra
+  $0 stop 2
+  $0 start 2
 EOS
 }
 
@@ -65,11 +71,16 @@ create_nodes(){
   done
 }
 
-run(){
+start_all(){
   for node in `ls -1 $ROOT/nodes`;do
-    echo "starting node$node"
-    $ROOT/nodes/$node/bin/cassandra -p $ROOT/nodes/$node/cassandra.pid
+    start $node
   done
+}
+
+start(){
+  node=$1
+  echo "starting node$node"
+  $ROOT/nodes/$node/bin/cassandra -p $ROOT/nodes/$node/cassandra.pid
 }
 
 stop_all(){
@@ -106,8 +117,12 @@ case $1 in
   clean)
     clean
     ;;
-  start_all|run)
-    run
+  start_all)
+    start_all
+    ;;
+  start)
+    required_args $# 2
+    start $2
     ;;
   stop_all)
     stop_all
