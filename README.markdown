@@ -1,6 +1,8 @@
-# Cassandra multi node setup script for single node.
+# Cassandra multi node setup script for single host.
 
-_Tested cassandra 1.1.3 on OSX only._ with the patch (https://issues.apache.org/jira/browse/CASSANDRA-4494)
+_Tested cassandra 1.1.3 on OSX and Ubuntu 12.0x_
+
+(cassandra 1.1.3 needs the patch. https://issues.apache.org/jira/browse/CASSANDRA-4494)
 
 The script make nodes as follows:
 
@@ -8,28 +10,13 @@ The script make nodes as follows:
     node 2: address=127.0.0.2, jmx port=7200
     node 3: address=127.0.0.3, jmx port=7201
 
+## Preparation (only OSX)
 _Create interface aliases you need_
 
     sudo ifconfig lo0 alias 127.0.0.2 up
     sudo ifconfig lo0 alias 127.0.0.3 up
 
-## Usage
-
-    usage
-    -----
-      ./multi-node.sh create node_count cassandra_home
-      ./multi-node.sh start node_id
-      ./multi-node.sh start_all
-      ./multi-node.sh stop node_id
-      ./multi-node.sh stop_all
-      ./multi-node.sh clean
-
-    example)
-      ./multi-node.sh create 3 /usr/local/cassandra
-      ./multi-node.sh stop 2
-      ./multi-node.sh start 2
-
-## Getting start (make 3 nodes)
+## Getting Started (make 3 nodes)
 
 1. install cassandra. http://cassandra.apache.org/download/
 
@@ -49,7 +36,7 @@ _Create interface aliases you need_
 4. start cassandra multi-node.
 
   <pre>
-  $ ./multi-node.sh run
+  $ ./multi-node.sh start_all
   </pre>
 
 5. show ring status.
@@ -64,6 +51,22 @@ _Create interface aliases you need_
   127.0.0.1       datacenter1 rack1       Up     Normal  6.74 KB         6.91%               60124436846790647144840725483529043142
   </pre>
 
+## Usage
+
+    usage
+    -----
+      ./multi-node.sh create node_count cassandra_home
+      ./multi-node.sh start node_id
+      ./multi-node.sh start_all
+      ./multi-node.sh stop node_id
+      ./multi-node.sh stop_all
+      ./multi-node.sh clean
+
+    example)
+      ./multi-node.sh create 3 /usr/local/cassandra
+      ./multi-node.sh stop 2
+      ./multi-node.sh start 2
+
 ## Note
 
 set heap size.
@@ -72,5 +75,4 @@ set heap size.
 
 ## TODO
 
-* optimize JVM memory.
 * avoid using sed.
