@@ -1,8 +1,6 @@
 # Cassandra multi node setup script for single host.
 
-_Tested cassandra 1.1.3 on OSX and Ubuntu 12.0x_
-
-(cassandra 1.1.3 needs the patch. https://issues.apache.org/jira/browse/CASSANDRA-4494)
+_Tested cassandra 1.2.3 on Ubuntu 12.0x only_
 
 The script make nodes as follows:
 

@@ -54,6 +54,7 @@ create_nodes(){
     cat $cassandra_home/conf/cassandra.yaml | \
       sed "s|/var/lib/cassandra|${app_root}|" |\
       sed "s|: localhost|: 127.0.0.$i|" |\
+      sed "s|# num_tokens: 256|num_tokens: 32|" |\
       sed "s|- seeds: \"127.0.0.1\"|- seeds: \"$seeds\"|" \
       > $app_root/conf/cassandra.yaml
 
